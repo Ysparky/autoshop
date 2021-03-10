@@ -21,6 +21,7 @@
               :key="i"
               :showDivider="i != 5"
               :orderDetail="o"
+              @edit-quantity="editProductQuantity"
             />
             <v-row class="my-2">
               <v-spacer />
@@ -49,14 +50,15 @@ export default {
   },
   methods: {
     ...mapActions(["callAddProduct"]),
+    editProductQuantity: (payload) => {
+      const product = this.getProducts.find((p) => p.id == payload.productId);
+      if (payload.greater) {
+        this.callAddProduct(product);
+      }else{
+        console.log('restar');
+      }
+    },
   },
 };
 </script>
-
-<style>
-.numeric-input {
-  text-align: center !important;
-}
-</style>
-
 
