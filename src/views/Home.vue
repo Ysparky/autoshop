@@ -1,18 +1,146 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-container>
+      <v-row>
+        <v-col cols="8" style="overflow-y: auto; position: relative">
+          <v-row>
+            <v-col cols="4" v-for="(p, i) in products" :key="i">
+              <v-card>
+                <v-img
+                  contain
+                  class="white--text"
+                  height="180px"
+                  :src="require('@/assets/products/' + p.imgUrl)"
+                />
+                <v-card-title>
+                  <div class="mx-5">
+                    <span class="title blue--text">{{ p.name }}</span
+                    ><br />
+                    <v-rating
+                      readonly
+                      small
+                      dense
+                      background-color="orange"
+                      color="orange"
+                      :v-model="p.rating"
+                      :value="parseInt(p.rating)"
+                    ></v-rating>
+                    <span class="title"> S/. {{ p.price }}</span>
+                  </div>
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn
+                    large
+                    rounded
+                    depressed
+                    color="grey lighten-2"
+                    class="mx-auto"
+                    @click="callAddProduct(p)"
+                  >
+                    ADD TO CART
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="4">
+          <v-row>
+            <v-col>
+              <h3>Shopping Cart</h3>
+            </v-col>
+            <v-col>
+              <div id="price">Price</div>
+            </v-col>
+            <v-col>
+              <div id="quantity">Quantity</div>
+            </v-col>
+            <v-col>
+              <div id="total">Total</div>
+            </v-col>
+          </v-row>
+          <v-row v-for="(o, i) in order" :key="i" no-gutters>
+            <v-col>
+              <img
+                :src="require('@/assets/products/' + o.imgUrl)"
+                width="80px"
+                alt=""
+              />
+            </v-col>
+            <v-col>
+              <h4>{{ o.name }}</h4>
+            </v-col>
+            <v-col>
+              <p>S/. {{ o.price }}</p>
+            </v-col>
+            <v-col cols="1">
+              <div class="qty-minus" @click="callSubstractProduct(o)">-</div>
+            </v-col>
+            <v-col cols="1">
+              <div class="qty">{{ o.quantity }}</div>
+            </v-col>
+            <v-col cols="1">
+              <div class="qty-plus" @click="callAddProduct(o)">+</div>
+            </v-col>
+            <v-col cols="2">
+              <div class="del">Remove</div>
+            </v-col>
+            <v-col>
+              <div class="totalprice">S/. {{ o.subtotal }}</div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-spacer />
+            <h5 v-if="total() > 0">Total: S/. {{ total() }}</h5>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+// import HelloWorld from "@/components/HelloWorld.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+  name: "Home",
+  components: {},
+
+  computed: {
+    ...mapGetters(["products", "order"]),
+  },
+  methods: {
+    ...mapActions(["callAddProduct", "callSubstractProduct"]),
+    total() {
+      let sum = 0;
+      this.order.forEach((o) => {
+        sum += o.subtotal;
+      });
+      return parseFloat(sum).toFixed(2);
+    },
+    // minusQty(product) {
+    //   const idx = this.order.findIndex((p) => p.id == product.id);
+    //   this.order[idx].quantity -= 1;
+    //   if (this.order[idx].quantity <= 0) {
+    //     //delete from array
+    //     this.order.splice(idx, 1);
+    //   }
+    // },
+    // plusQty(product) {
+    //   const idx = this.order.findIndex((p) => p.id == product.id);
+    //   this.order[idx].quantity += 1;
+    // },
+  },
+  watch: {
+    total() {
+      let sum = 0;
+      this.order.forEach((o) => {
+        sum += o.subtotal;
+      });
+      return parseFloat(sum).toFixed(2);
+    },
+  },
+};
 </script>

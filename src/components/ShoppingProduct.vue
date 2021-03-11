@@ -14,13 +14,13 @@
         <p class="ma-0">{{ orderDetail.price }}</p>
       </v-col>
       <v-col>
-        <vue-numeric-input
+        <!-- <vue-numeric-input
           align="center"
           v-model="orderDetail.quantity"
           :min="1"
           :step="1"
           @change="changeQuantity"
-        ></vue-numeric-input>
+        ></vue-numeric-input> -->
       </v-col>
       <v-col cols="2">
         <v-btn icon color="indigo">
@@ -46,23 +46,24 @@ export default {
   },
   methods: {
     changeQuantity: (newVal) => {
-      console.log(this.orderDetail.quantity);
+      // console.log(this.showDivider);
+      // console.log(orderDetail.quantity);
       console.log(newVal);
     },
   },
   watch: {
-    orderDetail: (newVal, oldVal) => {
-      console.log(newVal);
-      console.log(oldVal);
-      const greater = true;
-      if (oldVal.quantity > newVal.quantity) {
-        greater = false;
-      }
-      this.$emit("edit-quantity", {
-        greater,
-        productId: orderDetail.id,
-      });
-    },
+    // orderDetail: (newVal, oldVal) => {
+    //   console.log(newVal);
+    //   console.log(oldVal);
+    //   const greater = true;
+    //   if (oldVal.quantity > newVal.quantity) {
+    //     greater = false;
+    //   }
+    //   this.$emit("edit-quantity", {
+    //     greater,
+    //     productId: orderDetail.id,
+    //   });
+    // },
   },
 };
 </script>

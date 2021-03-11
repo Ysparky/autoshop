@@ -12,6 +12,7 @@ export default new Vuex.Store({
         barCode: 'product_01.gif',
         name: 'Mantequilla de Maní',
         price: '13.00',
+        rating: '2'
       },
       {
         id: 2,
@@ -19,6 +20,7 @@ export default new Vuex.Store({
         barCode: 'product_02.gif',
         name: 'Sal Emsal',
         price: '1.20',
+        rating: '2'
       },
       {
         id: 3,
@@ -26,6 +28,7 @@ export default new Vuex.Store({
         barCode: 'product_03.gif',
         name: 'Azucar Rubia',
         price: '13.00',
+        rating: '2'
       },
       {
         id: 4,
@@ -33,6 +36,7 @@ export default new Vuex.Store({
         barCode: 'product_04.gif',
         name: 'Gaseosa Coca Cola 600ml',
         price: '2.50',
+        rating: '2'
       },
       {
         id: 5,
@@ -40,6 +44,7 @@ export default new Vuex.Store({
         barCode: 'product_05.gif',
         name: 'Gaseosa Inca Cola 600ml',
         price: '2.50',
+        rating: '2'
       },
       {
         id: 6,
@@ -47,6 +52,7 @@ export default new Vuex.Store({
         barCode: 'product_06.gif',
         name: 'Gaseosa Fanta 600ml',
         price: '2.50',
+        rating: '2'
       },
       {
         id: 7,
@@ -54,6 +60,7 @@ export default new Vuex.Store({
         barCode: 'product_07.gif',
         name: 'Gaseosa Sprite 600ml',
         price: '2.50',
+        rating: '2'
       },
       {
         id: 8,
@@ -61,6 +68,7 @@ export default new Vuex.Store({
         barCode: 'product_08.gif',
         name: 'Doritos',
         price: '1.20',
+        rating: '2'
       },
       {
         id: 9,
@@ -68,6 +76,7 @@ export default new Vuex.Store({
         barCode: 'product_09.gif',
         name: 'Cheese Tris',
         price: '1.20',
+        rating: '2'
       },
       {
         id: 10,
@@ -75,22 +84,22 @@ export default new Vuex.Store({
         barCode: 'product_10.gif',
         name: "Papas Lay's",
         price: '1.20',
+        rating: '2'
       },
     ],
     order: [],
   },
   getters: {
-    getProducts: state => state.products,
-    getOrder: state => state.order
+    products: state => state.products,
+    order: state => state.order
   },
   mutations: {
     addProductToOrder: (state, payload) => {
-      console.log("clicked");
       const product = payload;
       const idx = state.order.findIndex(p => p.id == product.id);
       if (idx != -1) {
         state.order[idx].quantity = state.order[idx].quantity + 1;
-        state.order[idx].subtotal = state.order[idx].quantity * state.order[idx].price;
+        state.order[idx].subtotal = parseFloat(state.order[idx].quantity * state.order[idx].price).toFixed(2);
       } else {
         state.order.push({
           ...payload,
@@ -98,10 +107,20 @@ export default new Vuex.Store({
           subtotal: payload.price
         });
       }
+    },
+    subtractProductFromOrder: (state, payload) => {
+      const product = payload;
+      const idx = state.order.findIndex(p => p.id == product.id);
+      state.order[idx].quantity -= 1;
+      if (state.order[idx].quantity <= 0) {
+        //delete from array
+        state.order.splice(idx, 1);
+      }
     }
   },
   actions: {
     callAddProduct: (context, product) => context.commit('addProductToOrder', product),
+    callSubstractProduct: (context, product) => context.commit('subtractProductFromOrder', product),
   },
   modules: {
   }
