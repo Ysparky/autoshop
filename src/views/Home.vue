@@ -1,6 +1,21 @@
 <template>
   <div class="home">
     <v-container>
+      <v-row align="center">
+        <v-col>
+          <v-text-field
+            solo
+            clearable
+            label="BAR CODE"
+            ref="inputRef"
+            v-model="lectorValue"
+            hide-details="true"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <h4>Input Value: {{ auxLectorVal ? auxLectorVal : "no value" }}</h4>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="8" style="overflow-y: auto; position: relative">
           <v-row>
@@ -107,7 +122,9 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Home",
   components: {},
-
+  data() {
+    return { lectorValue: "", auxLectorVal: "" };
+  },
   computed: {
     ...mapGetters(["products", "order"]),
   },
@@ -116,7 +133,7 @@ export default {
     total() {
       let sum = 0;
       this.order.forEach((o) => {
-        sum += o.subtotal;
+        sum += parseFloat(o.subtotal);
       });
       return parseFloat(sum).toFixed(2);
     },
@@ -134,12 +151,18 @@ export default {
     // },
   },
   watch: {
-    total() {
-      let sum = 0;
-      this.order.forEach((o) => {
-        sum += o.subtotal;
-      });
-      return parseFloat(sum).toFixed(2);
+    lectorValue(newVal) {
+      // console.log(newVal);
+      if (newVal) {
+        const foundProduct = this.products.find(
+          (p) => p.barCodeValue == newVal
+        );
+        if (foundProduct) {
+          this.callAddProduct(foundProduct);
+        }
+        this.auxLectorVal = newVal;
+        this.$refs.inputRef.clearableCallback();
+      }
     },
   },
 };
