@@ -153,7 +153,7 @@ export default {
   watch: {
     lectorValue(newVal) {
       // console.log(newVal);
-      if (newVal) {
+      if (newVal.length == 8) {
         const foundProduct = this.products.find(
           (p) => p.barCodeValue == newVal
         );
