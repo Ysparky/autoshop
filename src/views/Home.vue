@@ -1,8 +1,8 @@
 <template>
   <div class="home" @click="focusInput">
     <v-container fluid class="px-12">
-      <v-row align="center">
-        <v-col>
+      <v-row class="bar-code-input" align="center">
+        <v-col cols="1">
           <v-text-field
             solo
             autofocus
@@ -60,21 +60,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="5" align-self="center">
-          <!-- <v-row>
-            <v-col>
-              <h3>Shopping Cart</h3>
-            </v-col>
-            <v-col>
-              <div id="price">Price</div>
-            </v-col>
-            <v-col>
-              <div id="quantity">Quantity</div>
-            </v-col>
-            <v-col>
-              <div id="total">Total</div>
-            </v-col>
-          </v-row> -->
+        <v-col cols="5" align-self="center" v-if="order.length > 0">
           <v-row v-for="(o, i) in order" :key="i" no-gutters align="center">
             <v-col cols="auto">
               <img
@@ -86,7 +72,7 @@
             <v-col cols="2">
               <h4>{{ o.name }}</h4>
             </v-col>
-            <v-col cols="auto">
+            <v-col cols="2">
               <p class="mx-2 my-0">S/. {{ o.price }}</p>
             </v-col>
             <v-col cols="1">
@@ -96,7 +82,7 @@
                 </v-btn>
               </div>
             </v-col>
-            <v-col cols="2" class="text-center">
+            <v-col cols="1" class="text-center">
               <div class="qty">{{ o.quantity }}</div>
             </v-col>
             <v-col cols="1">
@@ -121,6 +107,16 @@
             <v-spacer />
             <h5 v-if="total() > 0">Total: S/. {{ total() }}</h5>
           </v-row>
+        </v-col>
+        <v-col cols="5" align-self="center" v-else>
+          <div class="text-center">
+            <img
+              src="@/assets/undraw_shopping_app_flsj.svg"
+              alt=""
+              width="450px"
+            />
+            <h2 class="my-2">Agrega productos a la canasta</h2>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -194,6 +190,15 @@ export default {
 html {
   overflow-y: auto;
 }
+</style>
+
+<style scoped>
+.scrollable {
+  height: 85vh;
+  overflow-y: auto;
+
+  scrollbar-width: 200em;
+}
 
 .scrollable::-webkit-scrollbar {
   width: 30px; /* width of the entire scrollbar */
@@ -209,13 +214,9 @@ html {
   border-radius: 20px; /* roundness of the scroll thumb */
   /* border: 3px solid orange; creates padding around scroll thumb */
 }
-</style>
 
-<style scoped>
-.scrollable {
-  height: 85vh;
-  overflow-y: auto;
-
-  scrollbar-width: 200em;
+.bar-code-input {
+  opacity: 0;
+  /* cursor: zoom-out !important; */
 }
 </style>
