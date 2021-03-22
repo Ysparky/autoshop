@@ -107,7 +107,7 @@
               </div>
             </v-col>
             <v-col cols="1">
-              <div class="del">
+              <div class="del" @click="callDeleteProduct(o)">
                 <v-btn class="mx-2" outlined fab x-small color="error">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -142,7 +142,11 @@ export default {
     ...mapGetters(["products", "order"])
   },
   methods: {
-    ...mapActions(["callAddProduct", "callSubstractProduct"]),
+    ...mapActions([
+      "callAddProduct",
+      "callSubstractProduct",
+      "callDeleteProduct"
+    ]),
     total() {
       let sum = 0;
       this.order.forEach(o => {

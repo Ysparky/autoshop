@@ -128,13 +128,22 @@ export default new Vuex.Store({
         //delete from array
         state.order.splice(idx, 1);
       }
+    },
+    deleteProductFromOrder: (state, payload) => {
+      const product = payload;
+      const idx = state.order.findIndex(p => p.id == product.id);
+      if (idx != -1) {
+        state.order.splice(idx, 1);
+      }
     }
   },
   actions: {
     callAddProduct: (context, product) =>
       context.commit("addProductToOrder", product),
     callSubstractProduct: (context, product) =>
-      context.commit("subtractProductFromOrder", product)
+      context.commit("subtractProductFromOrder", product),
+    callDeleteProduct: (context, product) =>
+      context.commit("deleteProductFromOrder", product)
   },
   modules: {}
 });
