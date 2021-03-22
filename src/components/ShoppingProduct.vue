@@ -39,17 +39,17 @@
 export default {
   props: {
     showDivider: Boolean,
-    orderDetail: Object,
+    orderDetail: Object
   },
   data() {
     return {};
   },
   methods: {
-    changeQuantity: (newVal) => {
+    changeQuantity: newVal => {
       // console.log(this.showDivider);
       // console.log(orderDetail.quantity);
       console.log(newVal);
-    },
+    }
   },
   watch: {
     // orderDetail: (newVal, oldVal) => {
@@ -64,6 +64,6 @@ export default {
     //     productId: orderDetail.id,
     //   });
     // },'
-  },
+  }
 };
 </script>
