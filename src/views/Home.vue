@@ -190,9 +190,32 @@ export default {
 };
 </script>
 
+<style>
+html {
+  overflow-y: auto;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 30px; /* width of the entire scrollbar */
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the tracking area */
+  border-radius: 20px; /* roundness of the tracking area */
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #a8a8a8; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  /* border: 3px solid orange; creates padding around scroll thumb */
+}
+</style>
+
 <style scoped>
 .scrollable {
   height: 85vh;
   overflow-y: auto;
+
+  scrollbar-width: 200em;
 }
 </style>
