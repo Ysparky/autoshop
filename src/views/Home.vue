@@ -1,8 +1,8 @@
 <template>
   <div class="home" @click="focusInput">
     <v-container fluid class="px-12">
-      <v-row class="bar-code-input" align="center">
-        <v-col cols="1">
+      <v-row align="center">
+        <v-col cols="2" :class="visible ? `bar-code-input` : ``">
           <v-text-field
             solo
             autofocus
@@ -13,8 +13,21 @@
             hide-details="true"
           ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col :class="visible ? `bar-code-input` : ``">
           <h4>Input Value: {{ auxLectorVal ? auxLectorVal : "no value" }}</h4>
+        </v-col>
+        <v-spacer />
+        <v-col cols="auto">
+          <v-btn
+            class="mx-2"
+            outlined
+            fab
+            x-small
+            color="primary"
+            @click="toggleInput()"
+          >
+            <v-icon>mdi-eye</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -132,7 +145,7 @@ export default {
   name: "Home",
   components: {},
   data() {
-    return { lectorValue: "", auxLectorVal: "" };
+    return { lectorValue: "", auxLectorVal: "", visible: false };
   },
   computed: {
     ...mapGetters(["products", "order"])
@@ -152,6 +165,9 @@ export default {
     },
     focusInput() {
       this.$refs.inputRef.focus();
+    },
+    toggleInput() {
+      this.visible = !this.visible;
     }
     // minusQty(product) {
     //   const idx = this.order.findIndex((p) => p.id == product.id);
